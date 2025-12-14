@@ -165,7 +165,7 @@ export function Companies() {
       )}
       <Header title="Empresas" />
       {toast.visible && <Toast message={toast.message} />}
-      <Info text="Tenha total controle sobre as empresas contratantes do CopyBus" />
+      <Info text="Acesso às empresas no CopyBus" />
       <FlatList
         data={companies}
         onRefresh={fetchCompanies}

@@ -109,7 +109,7 @@ export function AddCompany() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      showToast("Empresa criada!","success", "A empresa foi inserida no sistema!");
+      showToast("Empresa criada!", "success", "A empresa foi inserida no sistema!");
       await new Promise((res) => setTimeout(res, 1000));
       navigation.navigate("CompaniesList");
     } catch (error) {
@@ -130,9 +130,7 @@ export function AddCompany() {
       <ScrollView contentContainerStyle={styles.container}>
         <Pressable style={styles.logoContainer} onPress={pickImage}>
           <Image
-            source={{
-              uri: company.emp_logo || "https://via.placeholder.com/120",
-            }}
+            source={company.emp_logo ? { uri: company.emp_logo } : require("../../../assets/images/company.png")}
             style={styles.logo}
           />
           <Text style={styles.logoText}>Selecionar logo</Text>
@@ -231,6 +229,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 2,
     borderBottomColor: COLORS.primary,
+    backgroundColor: "#e6e6e6ff",
+
   },
   button: {
     marginTop: 30,

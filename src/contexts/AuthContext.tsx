@@ -27,39 +27,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Login Manager
   async function signInManager(ges_email: string, ges_senha: string) {
     try {
-      const { data } = await api.post("/auth/manager/login", { ges_email, ges_senha });
+      const { data } = await api.post("/auth/manager/login", {
+        ges_email,
+        ges_senha,
+      });
+
       const token = data.token;
       const payload: ManagerDTO = data.manager;
 
       const formatted: AuthUser = { ...payload, type: "manager" };
+
       setUser(formatted);
       await saveUser(formatted);
       await saveToken(token);
-    } catch (error) {
-      throw new Error("Credenciais inválidas");
+    } catch (error: any) {
+      throw error;
     }
   }
 
-  // Login User
+
   async function signInUser(usu_email: string, usu_senha: string) {
     try {
-      const { data } = await api.post("/auth/user/login", { usu_email, usu_senha });
+      const { data } = await api.post("/auth/user/login", {
+        usu_email,
+        usu_senha,
+      });
+
       const token = data.token;
       const payload: UserDTO = data.user;
 
       const formatted: AuthUser = { ...payload, type: "user" };
+
       setUser(formatted);
       await saveUser(formatted);
       await saveToken(token);
     } catch (error) {
-      throw new Error("Credenciais inválidas");
+      throw error;
     }
   }
 
-  // Carregar usuário e token do storage
+
   async function loadStorageData() {
     try {
       const storedUser = await getUser();

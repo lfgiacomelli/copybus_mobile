@@ -1,3 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native";
+
 export function Fleets(){
-    return null;
+    const navigation = useNavigation();
+    return (
+        <Button title="voltar" onPress={()=>navigation.goBack()} />
+    )
 }

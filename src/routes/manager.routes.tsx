@@ -55,7 +55,6 @@ export function ManagerRoutes() {
               iconName = focused ? "person" : "person-outline";
               break;
           }
-
           return <Ionicons name={iconName as any} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#0f0c0cff",

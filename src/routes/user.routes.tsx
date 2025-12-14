@@ -3,35 +3,35 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Home } from "../screens/User/Home";
 
-// Company
 import { Company } from "../screens/User/Company/Company";
-import { EditCompany } from "../screens/Manager/Companies/EditCompany";
+import { EditCompany } from "../screens/User/Company/EditCompany";
 
-// Users
 import { Users } from "../screens/User/Users/Users";
 import { AddUser } from "../screens/User/Users/AddUser";
 import { EditUser } from "../screens/User/Users/EditUser";
-import { User } from "../screens/User/Users/User";
 
-// Vehicles
 import { Vehicles } from "../screens/User/Vehicles/Vehicles";
 import { AddVehicle } from "../screens/User/Vehicles/AddVehicle";
 import { EditVehicle } from "../screens/User/Vehicles/EditVehicle";
 import { Vehicle } from "../screens/User/Vehicles/Vehicle";
 
-// Drivers
+import { Fleet } from "../screens/User/Fleets/Fleet";
+import { Fleets } from "../screens/User/Fleets/Fleets";
+import { AddFleet } from "../screens/User/Fleets/AddFleet";
+import { EditFleet } from "../screens/User/Fleets/EditFleet";
+
 import { Drivers } from "../screens/User/Drivers/Drivers";
 import { AddDriver } from "../screens/User/Drivers/AddDriver";
 import { EditDriver } from "../screens/User/Drivers/EditDriver";
 import { Driver } from "../screens/User/Drivers/Driver";
 
-import Ionicons from "@expo/vector-icons/Ionicons"; // Expo
-// Se não usar Expo: import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
 
-/* 📌 STACKS DE CADA MENU */
 
 function CompanyStack() {
   return (
@@ -48,7 +48,6 @@ function UsersStack() {
       <Stack.Screen name="UsersList" component={Users} />
       <Stack.Screen name="AddUser" component={AddUser} />
       <Stack.Screen name="EditUser" component={EditUser} />
-      <Stack.Screen name="UserDetails" component={User} />
     </Stack.Navigator>
   );
 }
@@ -75,8 +74,18 @@ function DriversStack() {
   );
 }
 
-/* 📌 TAB PRINCIPAL DO USER */
-export function UserRoutes() {
+function FleetsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="FleetsList" component={Fleets} />
+      <Stack.Screen name="Fleet" component={Fleet} />
+      <Stack.Screen name="AddFleet" component={AddFleet} />
+      <Stack.Screen name="EditFleet" component={EditFleet} />
+    </Stack.Navigator>
+  );
+}
+
+function UserTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -95,18 +104,37 @@ export function UserRoutes() {
               iconName = focused ? "people" : "people-outline";
               break;
             case "Veículos":
-              iconName = focused ? "car" : "car-outline";
+              iconName = focused ? "bus" : "bus-outline";
               break;
             case "Motoristas":
               iconName = focused ? "person" : "person-outline";
               break;
           }
 
-          return <Ionicons name={iconName as any} size={size} color={color} />;
+          if (iconName === "bus") {
+            return (
+              <FontAwesome5
+                name={iconName as any}
+                size={size}
+                color={color}
+              />
+            );
+          }
+
+          return (
+            <Ionicons
+              name={iconName as any}
+              size={size}
+              color={color}
+            />
+          );
         },
         tabBarActiveTintColor: "#0f0c0cff",
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: { paddingBottom: 5, height: 60 },
+        tabBarStyle: {
+          height: 60,
+          paddingBottom: 6,
+        },
       })}
     >
       <Tab.Screen name="Home" component={Home} />
@@ -115,5 +143,14 @@ export function UserRoutes() {
       <Tab.Screen name="Veículos" component={VehiclesStack} />
       <Tab.Screen name="Motoristas" component={DriversStack} />
     </Tab.Navigator>
+  );
+}
+
+export function UserRoutes() {
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen name="UserTabs" component={UserTabs} />
+      <RootStack.Screen name="FleetsStack" component={FleetsStack} />
+    </RootStack.Navigator>
   );
 }

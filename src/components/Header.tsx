@@ -7,21 +7,27 @@ import {
   Platform,
   Pressable,
 } from "react-native";
-import useRighteousFont from "../hooks/useFonts/Righteous";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import useRighteousFont from "../hooks/useFonts/Righteous";
 
 type HeaderProps = {
   title: string;
-  backButton?: boolean; // 👈 nova prop booleana
+  bgColor?: string;
+  backButton?: boolean;
 };
 
 const COLORS = {
   primary: "#59C173",
+  secondary: "#0078ff",
   text: "#FFFFFF",
 };
 
-export function Header({ title, backButton = false }: HeaderProps) {
+export function Header({
+  title,
+  bgColor = COLORS.primary,
+  backButton = false,
+}: HeaderProps) {
   const navigation = useNavigation();
   const fontLoaded = useRighteousFont();
   if (!fontLoaded) return null;
@@ -33,12 +39,23 @@ export function Header({ title, backButton = false }: HeaderProps) {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <StatusBar style="light" backgroundColor={COLORS.primary} />
+    <View
+      style={[
+        styles.wrapper,
+        {
+          backgroundColor: bgColor
+        },
+      ]}
+    >
+      <StatusBar style="dark" backgroundColor={bgColor} />
 
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: bgColor }]}>
         {backButton ? (
-          <Pressable style={styles.backButton} onPress={handleGoBack}>
+          <Pressable
+            style={styles.backButton}
+            onPress={handleGoBack}
+            hitSlop={10}
+          >
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </Pressable>
         ) : (
@@ -54,34 +71,27 @@ export function Header({ title, backButton = false }: HeaderProps) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   wrapper: {
     width: "100%",
-    backgroundColor: COLORS.primary,
-    paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
   },
 
   container: {
     width: "100%",
     height: 60,
-    backgroundColor: COLORS.primary,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
-    elevation: 6,
   },
 
   title: {
     fontFamily: "Righteous",
     fontSize: 20,
-    color: COLORS.text,
+    color: "#FFFFFF",
     letterSpacing: 0.8,
     textAlign: "center",
   },

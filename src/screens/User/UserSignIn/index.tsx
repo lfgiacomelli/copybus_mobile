@@ -16,6 +16,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import useRighteousFont from "../../../hooks/useFonts/Righteous";
 import { Toast } from "../../../components/Toast";
 import copyBus from "../../../assets/images/copybus.png";
+import { AxiosError } from "axios";
 
 export default function UserSignIn() {
     const navigation = useNavigation<any>();
@@ -53,18 +54,35 @@ export default function UserSignIn() {
 
     async function handleLogin() {
         if (!usu_email || !usu_password) {
-            return showToast("info", "Campos faltando!", "Preencha todos os campos!");
+            return showToast(
+                "info",
+                "Campos faltando!",
+                "Preencha todos os campos!"
+            );
         }
 
         try {
             setIsLoading(true);
             await signInUser(usu_email.trim(), usu_password.trim());
-        } catch (error) {
-            showToast("error", "Erro inesperado!", "Tente novamente mais tarde.");
+        } catch (error: any) {
+            if (error?.response?.status === 401) {
+                showToast(
+                    "error",
+                    "Email ou senha inválidos!",
+                    "Tente novamente."
+                );
+            } else {
+                showToast(
+                    "error",
+                    "Erro ao entrar",
+                    "Tente novamente mais tarde."
+                );
+            }
         } finally {
             setIsLoading(false);
         }
     }
+
 
     if (!fontLoaded) {
         return (

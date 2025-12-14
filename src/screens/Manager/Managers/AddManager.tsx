@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderBottomWidth: 2,
         borderBottomColor: COLORS.primary,
+        backgroundColor: "#e6e6e6ff",
     },
     picker: {
         paddingVertical: 12,

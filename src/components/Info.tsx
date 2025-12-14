@@ -10,14 +10,14 @@ export function Info({ text }: InfoProps) {
     if (!fontLoaded) return null;
 
     return (
-        <View style={styles.container}>
+        <View style={styles.box}>
             <Text style={styles.text}>{text}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    box: {
         marginHorizontal: 15,
         marginVertical: 12,
         padding: 0,

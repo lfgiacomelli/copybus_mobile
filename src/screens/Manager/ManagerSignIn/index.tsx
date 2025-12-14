@@ -53,18 +53,35 @@ export default function ManagerSignIn() {
 
     async function handleLogin() {
         if (!ges_email || !ges_password) {
-            return showToast("info", "Campos faltando!", "Preencha todos os campos!");
+            return showToast(
+                "info",
+                "Campos faltando!",
+                "Preencha todos os campos!"
+            );
         }
 
         try {
             setIsLoading(true);
             await signInManager(ges_email.trim(), ges_password.trim());
-        } catch (error) {
-            showToast("error", "Erro inesperado!", "Tente novamente mais tarde.");
+        } catch (error: any) {
+            if (error?.response?.status === 401) {
+                showToast(
+                    "error",
+                    "Email ou senha inválidos!",
+                    "Tente novamente."
+                );
+            } else {
+                showToast(
+                    "error",
+                    "Erro inesperado!",
+                    "Tente novamente mais tarde."
+                );
+            }
         } finally {
             setIsLoading(false);
         }
     }
+
 
     if (!fontLoaded) {
         return (
